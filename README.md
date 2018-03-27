@@ -11,9 +11,5 @@ After downloading this code, do the following steps:
 
 * Run `build.cmd` or `build.sh` to download all the NuGet packages and compile the project
 * If that is not successful, you may need to install the [.NET SDK 4.6.1 from here](https://www.microsoft.com/en-us/download/details.aspx?id=49978)
-* If you have problems, please ask on the [PragProg forum for this book](https://forums.pragprog.com/forums/457)
+* If you have problems, please create an issue on this repo
 
-## More information and up-to-date code
-
-This code is likely to become out of date.
-For the latest code, see https://github.com/swlaschin/DomainModelingMadeFunctional
