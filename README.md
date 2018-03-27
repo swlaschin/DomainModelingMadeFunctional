@@ -4,7 +4,6 @@ This directory contains code samples related to the book "Domain Modeling Made F
 
 * `/src/OrderTaking` contains the workflow as part of a complete bounded context.
 * `/src/OrderTakingEvolved` contains the workflow after the changes in the Evolution chapter.
-* `/src/Chapters` contains the code fragments used in each chapter. This is NOT meant to be used as real code!
 
 ## Getting started
 
