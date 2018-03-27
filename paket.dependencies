@@ -1,0 +1,14 @@
+source https://www.nuget.org/api/v2
+
+framework: >= net461
+nuget Newtonsoft.Json
+nuget FSharp.Data.SqlClient
+nuget WindowsAzure.Storage
+nuget NUnit 
+
+group Build
+source https://www.nuget.org/api/v2
+
+nuget FAKE
+
+

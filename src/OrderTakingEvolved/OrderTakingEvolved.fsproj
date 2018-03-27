@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net461</TargetFramework>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="README.md" />
+    <Compile Include="Result.fs" />
+    <Compile Include="Common.SimpleTypes.fs" />
+    <Compile Include="Common.CompoundTypes.fs" />
+    <Compile Include="PlaceOrder.PublicTypes.fs" />
+    <Compile Include="PlaceOrder.InternalTypes.fs" />
+    <Compile Include="PlaceOrder.Pricing.fs" />
+    <Compile Include="PlaceOrder.Implementation.fs" />
+    <Compile Include="PlaceOrder.Dto.fs" />
+    <Compile Include="PlaceOrder.Api.fs" />
+    <Compile Include="AssemblyInfo.fs" />
+    <Content Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="paket.references" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>
