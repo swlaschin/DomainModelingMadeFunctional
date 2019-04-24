@@ -231,6 +231,9 @@ type Validation<'Success,'Failure> =
 [<RequireQualifiedAccess>]  // RequireQualifiedAccess forces the `Validation.xxx` prefix to be used
 module Validation =
 
+    /// Alias for Result.Map
+    let map = Result.map
+
     /// Apply a Validation<fn> to a Validation<x> applicatively
     let apply (fV:Validation<_,_>) (xV:Validation<_,_>) :Validation<_,_> = 
         match fV, xV with
