@@ -51,38 +51,38 @@ let toCustomerInfo (unvalidatedCustomerInfo: UnvalidatedCustomerInfo) =
         return customerInfo 
     }
 
-let toAddress (CheckedAddress unvalidatedAddress) =
+let toAddress (CheckedAddress checkedAddress) =
     result {
         let! addressLine1 = 
-            unvalidatedAddress.AddressLine1 
+            checkedAddress.AddressLine1 
             |> String50.create "AddressLine1" 
             |> Result.mapError ValidationError // convert creation error into ValidationError
         let! addressLine2 = 
-            unvalidatedAddress.AddressLine2 
+            checkedAddress.AddressLine2 
             |> String50.createOption "AddressLine2"
             |> Result.mapError ValidationError // convert creation error into ValidationError
         let! addressLine3 = 
-            unvalidatedAddress.AddressLine3 
+            checkedAddress.AddressLine3 
             |> String50.createOption "AddressLine3" 
             |> Result.mapError ValidationError // convert creation error into ValidationError
         let! addressLine4 = 
-            unvalidatedAddress.AddressLine4 
+            checkedAddress.AddressLine4 
             |> String50.createOption "AddressLine4"
             |> Result.mapError ValidationError // convert creation error into ValidationError
         let! city = 
-            unvalidatedAddress.City
+            checkedAddress.City
             |> String50.create "City"
             |> Result.mapError ValidationError // convert creation error into ValidationError
         let! zipCode = 
-            unvalidatedAddress.ZipCode
+            checkedAddress.ZipCode
             |> ZipCode.create "ZipCode"
             |> Result.mapError ValidationError // convert creation error into ValidationError
         let! state = 
-            unvalidatedAddress.State
+            checkedAddress.State
             |> UsStateCode.create "State"
             |> Result.mapError ValidationError // convert creation error into ValidationError
         let! country = 
-            unvalidatedAddress.Country 
+            checkedAddress.Country 
             |> String50.create "Country"
             |> Result.mapError ValidationError // convert creation error into ValidationError
         let address : Address = {
