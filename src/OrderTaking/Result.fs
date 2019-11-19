@@ -430,13 +430,15 @@ module AsyncResultComputationExpression =
             else this.Bind( body(), fun () -> 
                 this.While(guard, body))  
 
-        member this.TryWith(body, handler) =
-            try this.ReturnFrom(body())
-            with e -> handler e
+        member this.TryWith(body, handler) = async {
+            try return! this.ReturnFrom(body())
+            with e -> return! handler e
+        }
 
-        member this.TryFinally(body, compensation) =
-            try this.ReturnFrom(body())
-            finally compensation() 
+        member this.TryFinally(body, compensation) = async {
+            try return! this.ReturnFrom(body())
+            finally compensation()
+        }
 
         member this.Using(disposable:#System.IDisposable, body) =
             let body' = fun () -> body disposable
