@@ -186,4 +186,6 @@ docs/content/license.md
 docs/content/release-notes.md
 .svn
 /fragments
-.fake/build.*
+
+.fake
+.ionide

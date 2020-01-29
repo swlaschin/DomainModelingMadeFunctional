@@ -2,69 +2,62 @@
 // FAKE build script
 // --------------------------------------------------------------------------------------
 
-#r "./packages/build/FAKE/tools/FakeLib.dll"
+#load ".fake/build.fsx/intellisense.fsx"
 
-open Fake
+#if !FAKE
+#r "netstandard"
+#endif
+
 open System
+
+open Fake.SystemHelper
+open Fake.Core
+open Fake.DotNet
+open Fake.Tools
+open Fake.IO
+open Fake.IO.FileSystemOperators
+open Fake.IO.Globbing.Operators
+open Fake.Core.TargetOperators
+open Fake.Api
 
 // --------------------------------------------------------------------------------------
 // Build variables
 // --------------------------------------------------------------------------------------
 
 let buildDir  = "./build/"
-let appReferences = !! "/**/*.fsproj"
-let dotnetcliVersion = "2.1.4"
-let mutable dotnetExePath = "dotnet"
-
-// --------------------------------------------------------------------------------------
-// Helpers
-// --------------------------------------------------------------------------------------
-
-let run' timeout cmd args dir =
-    if execProcess (fun info ->
-        info.FileName <- cmd
-        if not (String.IsNullOrWhiteSpace dir) then
-            info.WorkingDirectory <- dir
-        info.Arguments <- args
-    ) timeout |> not then
-        failwithf "Error while running '%s' with args: %s" cmd args
-
-let run = run' System.TimeSpan.MaxValue
-
-let runDotnet workingDir args =
-    let result =
-        ExecProcess (fun info ->
-            info.FileName <- dotnetExePath
-            info.WorkingDirectory <- workingDir
-            info.Arguments <- args) TimeSpan.MaxValue
-    if result <> 0 then failwithf "dotnet %s failed" args
+let dotnetSdkVersion = "3.1.101"
 
 // --------------------------------------------------------------------------------------
 // Targets
 // --------------------------------------------------------------------------------------
 
-Target "Clean" (fun _ ->
-    CleanDirs [buildDir]
+Target.create "Clean" (fun _ ->
+    [buildDir]
+    |> Shell.cleanDirs
 )
 
-Target "InstallDotNetCLI" (fun _ ->
-    dotnetExePath <- DotNetCli.InstallDotNetSDK dotnetcliVersion
+// Lazily install DotNet SDK in the correct version if not available
+let installedSdk =
+    lazy DotNet.install (fun cfg ->
+        { cfg with
+            Version = DotNet.CliVersion.Version dotnetSdkVersion
+        }) 
+
+// Set general properties without arguments
+let inline setDotNetOptions arg = DotNet.Options.lift installedSdk.Value arg
+
+Target.create "InstallDotNetCLI" (fun _ ->
+    installedSdk.Force()
+    |> ignore
 )
 
-Target "Restore" (fun _ ->
-    appReferences
-    |> Seq.iter (fun p ->
-        let dir = System.IO.Path.GetDirectoryName p
-        runDotnet dir "restore"
-    )
+Target.create "Restore" (fun _ ->
+    DotNet.restore setDotNetOptions "DomainModelingMadeFunctional.sln"
 )
 
-Target "Build" (fun _ ->
-    appReferences
-    |> Seq.iter (fun p ->
-        let dir = System.IO.Path.GetDirectoryName p
-        runDotnet dir "build"
-    )
+Target.create "Build" (fun _ -> 
+    DotNet.exec setDotNetOptions "build" "DomainModelingMadeFunctional.sln"
+    |> ignore
 )
 
 // --------------------------------------------------------------------------------------
@@ -72,8 +65,8 @@ Target "Build" (fun _ ->
 // --------------------------------------------------------------------------------------
 
 "Clean"
-  ==> "InstallDotNetCLI"
-  ==> "Restore"
-  ==> "Build"
+   ==> "InstallDotNetCLI"
+   ==> "Restore"
+   ==> "Build"
 
-RunTargetOrDefault "Build"
+Target.runOrDefaultWithArguments "Build"

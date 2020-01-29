@@ -10,6 +10,6 @@ This directory contains code samples related to the book "Domain Modeling Made F
 After downloading this code, do the following steps:
 
 * Run `build.cmd` or `build.sh` to download all the NuGet packages and compile the project
-* If that is not successful, you may need to install the [.NET SDK 4.6.1 from here](https://www.microsoft.com/en-us/download/details.aspx?id=49978)
+* If that is not successful, you may need to install the [.NET SDK 3.1.101 from here](https://dotnet.microsoft.com/download/dotnet-core/3.1)
 * If you have problems, please create an issue on this repo
 

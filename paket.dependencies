@@ -1,14 +1,27 @@
-source https://www.nuget.org/api/v2
+version 5.241.2
 
-framework: >= net461
+source https://api.nuget.org/v3/index.json
+storage: none
+framework: auto-detect 
 
-nuget FSharp.Core 4.3.4 redirects:force
+nuget FSharp.Core 4.7.0
 nuget Newtonsoft.Json
 nuget NUnit 
 
+// [ FAKE GROUP ]
 group Build
-
-source https://www.nuget.org/api/v2
-nuget FAKE ~> 4.64
-
-
+    source https://api.nuget.org/v3/index.json
+    storage: none
+    
+    nuget FSharp.Core 4.7.0
+    
+    nuget Fake.IO.FileSystem
+    nuget Fake.Core.Target
+    nuget Fake.Core.ReleaseNotes
+    nuget FAKE.Core.Environment
+    nuget Fake.DotNet.Cli
+    nuget FAKE.Core.Process
+    nuget Fake.DotNet.AssemblyInfoFile
+    nuget Fake.Tools.Git
+    nuget Fake.DotNet.Paket
+    nuget Fake.Api.GitHub
