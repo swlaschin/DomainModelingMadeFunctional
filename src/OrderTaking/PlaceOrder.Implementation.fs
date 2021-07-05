@@ -121,7 +121,7 @@ type CreateEvents =
 // ======================================================
 // Section 2 : Implementation
 // ======================================================
-module internal Implemenation =
+module internal Implementation =
     // ---------------------------
     // ValidateOrder step
     // ---------------------------

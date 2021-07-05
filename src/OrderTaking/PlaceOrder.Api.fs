@@ -108,7 +108,7 @@ let placeOrderApi : PlaceOrderApi =
 
         // setup the dependencies. See "Injecting Dependencies" in chapter 9
         let workflow = 
-            ImplementationTypes.Implemenation.placeOrder 
+            ImplementationTypes.Implementation.placeOrder 
                 checkProductExists // dependency
                 checkAddressExists // dependency
                 getProductPrice    // dependency
