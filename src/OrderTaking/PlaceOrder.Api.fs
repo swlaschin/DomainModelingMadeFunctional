@@ -39,28 +39,28 @@ type PlaceOrderApi = HttpRequest -> Async<HttpResponse>
 
 // setup dummy dependencies            
 
-let checkProductExists : Implementation.CheckProductCodeExists =
+let checkProductExists : ImplementationTypes.CheckProductCodeExists =
     fun productCode -> 
         true // dummy implementation
 
-let checkAddressExists : Implementation.CheckAddressExists =
+let checkAddressExists : ImplementationTypes.CheckAddressExists =
     fun unvalidatedAddress -> 
-        let checkedAddress = Implementation.CheckedAddress unvalidatedAddress 
+        let checkedAddress = ImplementationTypes.CheckedAddress unvalidatedAddress 
         AsyncResult.retn checkedAddress 
 
-let getProductPrice : Implementation.GetProductPrice =
+let getProductPrice : ImplementationTypes.GetProductPrice =
     fun productCode -> 
         Price.unsafeCreate 1M  // dummy implementation
 
 
-let createOrderAcknowledgmentLetter : Implementation.CreateOrderAcknowledgmentLetter =
+let createOrderAcknowledgmentLetter : ImplementationTypes.CreateOrderAcknowledgmentLetter =
     fun pricedOrder ->
-        let letterTest = Implementation.HtmlString "some text"
+        let letterTest = ImplementationTypes.HtmlString "some text"
         letterTest 
 
-let sendOrderAcknowledgment : Implementation.SendOrderAcknowledgment =
+let sendOrderAcknowledgment : ImplementationTypes.SendOrderAcknowledgment =
     fun orderAcknowledgement ->
-        Implementation.Sent 
+        ImplementationTypes.Sent 
 
 
 // -------------------------------
@@ -108,7 +108,7 @@ let placeOrderApi : PlaceOrderApi =
 
         // setup the dependencies. See "Injecting Dependencies" in chapter 9
         let workflow = 
-            Implementation.placeOrder 
+            ImplementationTypes.Implemenation.placeOrder 
                 checkProductExists // dependency
                 checkAddressExists // dependency
                 getProductPrice    // dependency
