@@ -1,6 +1,6 @@
 ﻿// We are defining types and submodules, so we can use a namespace
 // rather than a module at the top level
-namespace OrderTaking.Common  
+namespace OrderTaking.Common
 
 open System
 
@@ -21,11 +21,11 @@ type PersonalName = {
     FirstName : String50
     LastName : String50
     }
-    
+
 type CustomerInfo = {
-    Name : PersonalName 
-    EmailAddress : EmailAddress 
-    VipStatus : VipStatus 
+    Name : PersonalName
+    EmailAddress : EmailAddress
+    VipStatus : VipStatus
     }
 
 // ==================================

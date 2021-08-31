@@ -6,7 +6,7 @@ open OrderTaking.Common
 
 // ==================================
 // This file contains the definitions of PUBLIC types (exposed at the boundary of the bounded context)
-// related to the PlaceOrder workflow 
+// related to the PlaceOrder workflow
 // ==================================
 
 
@@ -57,7 +57,7 @@ type UnvalidatedOrder = {
 /// Event will be created if the Acknowledgment was successfully posted
 type OrderAcknowledgmentSent = {
     OrderId : OrderId
-    EmailAddress : EmailAddress 
+    EmailAddress : EmailAddress
     }
 
 
@@ -87,15 +87,15 @@ type BillableOrderPlaced = {
 
 /// The possible events resulting from the PlaceOrder workflow
 /// Not all events will occur, depending on the logic of the workflow
-type PlaceOrderEvent = 
-    | ShippableOrderPlaced of ShippableOrderPlaced 
-    | BillableOrderPlaced of BillableOrderPlaced 
+type PlaceOrderEvent =
+    | ShippableOrderPlaced of ShippableOrderPlaced
+    | BillableOrderPlaced of BillableOrderPlaced
     | AcknowledgmentSent  of OrderAcknowledgmentSent
 
 
 
 // ------------------------------------
-// error outputs 
+// error outputs
 
 
 /// All the things that can go wrong in this workflow
@@ -109,20 +109,20 @@ type ServiceInfo = {
     }
 
 type RemoteServiceError = {
-    Service : ServiceInfo 
+    Service : ServiceInfo
     Exception : System.Exception
     }
 
 type PlaceOrderError =
-    | Validation of ValidationError 
-    | Pricing of PricingError 
-    | RemoteService of RemoteServiceError 
+    | Validation of ValidationError
+    | Pricing of PricingError
+    | RemoteService of RemoteServiceError
 
 
 // ------------------------------------
 // the workflow itself
 
-type PlaceOrder = 
+type PlaceOrder =
     UnvalidatedOrder -> AsyncResult<PlaceOrderEvent list,PlaceOrderError>
 
 

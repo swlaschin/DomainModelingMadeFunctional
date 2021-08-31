@@ -21,9 +21,9 @@ open OrderTaking.Common
 // ==================================
 
 [<AutoOpen>]
-module internal Utils =     
+module internal Utils =
 
-    /// Helper function to get the value from an Option, and if None, use the defaultValue 
+    /// Helper function to get the value from an Option, and if None, use the defaultValue
     /// Note that the defaultValue is the first parameter, unlike the similar `defaultArg`
     let defaultIfNone defaultValue opt =
         match opt with
@@ -44,22 +44,22 @@ type CustomerInfoDto = {
 
 /// Functions for converting between the DTO and corresponding domain object
 module internal CustomerInfoDto =
-        
+
     /// Convert the DTO into a UnvalidatedCustomerInfo object.
-    /// This always succeeds because there is no validation. 
+    /// This always succeeds because there is no validation.
     /// Used when importing an OrderForm from the outside world into the domain.
     let toUnvalidatedCustomerInfo (dto:CustomerInfoDto) : UnvalidatedCustomerInfo =
-            
-        // sometimes it's helpful to use an explicit type annotation 
+
+        // sometimes it's helpful to use an explicit type annotation
         // to avoid ambiguity between records with the same field names.
-        let domainObj : UnvalidatedCustomerInfo = {  
+        let domainObj : UnvalidatedCustomerInfo = {
 
             // this is a simple 1:1 copy which always succeeds
-            FirstName = dto.FirstName 
-            LastName = dto.LastName 
+            FirstName = dto.FirstName
+            LastName = dto.LastName
             EmailAddress = dto.EmailAddress
-            } 
-        domainObj 
+            }
+        domainObj
 
     /// Convert the DTO into a CustomerInfo object
     /// Used when importing from the outside world into the domain, eg loading from a database
@@ -77,7 +77,7 @@ module internal CustomerInfoDto =
 
     /// Convert a CustomerInfo object into the corresponding DTO.
     /// Used when exporting from the domain to the outside world.
-    let fromCustomerInfo (domainObj:Common.CustomerInfo) :CustomerInfoDto = 
+    let fromCustomerInfo (domainObj:Common.CustomerInfo) :CustomerInfoDto =
         // this is a simple 1:1 copy
         {
         FirstName = domainObj.Name.FirstName |> String50.value
@@ -86,9 +86,9 @@ module internal CustomerInfoDto =
         }
 
 //===============================================
-// DTO for Address 
+// DTO for Address
 //===============================================
-        
+
 type AddressDto = {
     AddressLine1 : string
     AddressLine2 : string
@@ -101,16 +101,16 @@ type AddressDto = {
 /// Functions for converting between the DTO and corresponding domain object
 module internal AddressDto =
 
-    /// Convert the DTO into a UnvalidatedAddress 
-    /// This always succeeds because there is no validation. 
+    /// Convert the DTO into a UnvalidatedAddress
+    /// This always succeeds because there is no validation.
     /// Used when importing an OrderForm from the outside world into the domain.
-    let toUnvalidatedAddress (dto:AddressDto) :UnvalidatedAddress = 
+    let toUnvalidatedAddress (dto:AddressDto) :UnvalidatedAddress =
         // this is a simple 1:1 copy
         {
-        AddressLine1 = dto.AddressLine1 
-        AddressLine2 = dto.AddressLine2 
-        AddressLine3 = dto.AddressLine3 
-        AddressLine4 = dto.AddressLine4 
+        AddressLine1 = dto.AddressLine1
+        AddressLine2 = dto.AddressLine2
+        AddressLine3 = dto.AddressLine3
+        AddressLine4 = dto.AddressLine4
         City = dto.City
         ZipCode = dto.ZipCode
         }
@@ -129,10 +129,10 @@ module internal AddressDto =
 
             // combine the components to create the domain object
             let address : Common.Address = {
-                AddressLine1 = addressLine1 
-                AddressLine2 = addressLine2 
-                AddressLine3 = addressLine3 
-                AddressLine4 = addressLine4 
+                AddressLine1 = addressLine1
+                AddressLine2 = addressLine2
+                AddressLine3 = addressLine3
+                AddressLine4 = addressLine4
                 City = city
                 ZipCode = zipCode
                 }
@@ -141,14 +141,14 @@ module internal AddressDto =
 
     /// Convert a Address object into the corresponding DTO.
     /// Used when exporting from the domain to the outside world.
-    let fromAddress (domainObj:Common.Address) :AddressDto = 
+    let fromAddress (domainObj:Common.Address) :AddressDto =
         // this is a simple 1:1 copy
         {
         AddressLine1 = domainObj.AddressLine1 |> String50.value
         AddressLine2 = domainObj.AddressLine2 |> Option.map String50.value |> defaultIfNone null
         AddressLine3 = domainObj.AddressLine3 |> Option.map String50.value |> defaultIfNone null
         AddressLine4 = domainObj.AddressLine4 |> Option.map String50.value |> defaultIfNone null
-        City = domainObj.City |> String50.value 
+        City = domainObj.City |> String50.value
         ZipCode = domainObj.ZipCode |> ZipCode.value
         }
 
@@ -167,14 +167,14 @@ type OrderFormLineDto =  {
 /// Functions relating to the OrderLine DTOs
 module internal OrderLineDto =
 
-    /// Convert the OrderFormLine into a UnvalidatedOrderLine  
-    /// This always succeeds because there is no validation. 
+    /// Convert the OrderFormLine into a UnvalidatedOrderLine
+    /// This always succeeds because there is no validation.
     /// Used when importing an OrderForm from the outside world into the domain.
-    let toUnvalidatedOrderLine (dto:OrderFormLineDto) :UnvalidatedOrderLine = 
+    let toUnvalidatedOrderLine (dto:OrderFormLineDto) :UnvalidatedOrderLine =
         // this is a simple 1:1 copy
         {
         OrderLineId = dto.OrderLineId
-        ProductCode = dto.ProductCode 
+        ProductCode = dto.ProductCode
         Quantity = dto.Quantity
         }
 
@@ -194,7 +194,7 @@ type PricedOrderLineDto =  {
 module internal PricedOrderLineDto =
     /// Convert a PricedOrderLine object into the corresponding DTO.
     /// Used when exporting from the domain to the outside world.
-    let fromDomain (domainObj:PricedOrderLine) :PricedOrderLineDto = 
+    let fromDomain (domainObj:PricedOrderLine) :PricedOrderLineDto =
         // this is a simple 1:1 copy
         {
         OrderLineId = domainObj.OrderLineId |> OrderLineId.value
@@ -219,8 +219,8 @@ type OrderFormDto = {
 module internal OrderFormDto =
 
     /// Convert the OrderForm into a UnvalidatedOrder
-    /// This always succeeds because there is no validation. 
-    let toUnvalidatedOrder (dto:OrderFormDto) :UnvalidatedOrder = 
+    /// This always succeeds because there is no validation.
+    let toUnvalidatedOrder (dto:OrderFormDto) :UnvalidatedOrder =
         {
         OrderId = dto.OrderId
         CustomerInfo = dto.CustomerInfo |> CustomerInfoDto.toUnvalidatedCustomerInfo
@@ -249,7 +249,7 @@ module internal OrderPlacedDto =
 
     /// Convert a OrderPlaced object into the corresponding DTO.
     /// Used when exporting from the domain to the outside world.
-    let fromDomain (domainObj:OrderPlaced) :OrderPlacedDto = 
+    let fromDomain (domainObj:OrderPlaced) :OrderPlacedDto =
         {
         OrderId = domainObj.OrderId |> OrderId.value
         CustomerInfo = domainObj.CustomerInfo |> CustomerInfoDto.fromCustomerInfo
@@ -275,7 +275,7 @@ module internal BillableOrderPlacedDto =
 
     /// Convert a BillableOrderPlaced object into the corresponding DTO.
     /// Used when exporting from the domain to the outside world.
-    let fromDomain (domainObj:BillableOrderPlaced ) :BillableOrderPlacedDto = 
+    let fromDomain (domainObj:BillableOrderPlaced ) :BillableOrderPlacedDto =
         {
         OrderId = domainObj.OrderId |> OrderId.value
         BillingAddress = domainObj.BillingAddress |> AddressDto.fromAddress
@@ -297,7 +297,7 @@ module internal OrderAcknowledgmentSentDto =
 
     /// Convert a OrderAcknowledgmentSent object into the corresponding DTO.
     /// Used when exporting from the domain to the outside world.
-    let fromDomain (domainObj:OrderAcknowledgmentSent) :OrderAcknowledgmentSentDto = 
+    let fromDomain (domainObj:OrderAcknowledgmentSent) :OrderAcknowledgmentSentDto =
         {
         OrderId = domainObj.OrderId |> OrderId.value
         EmailAddress = domainObj.EmailAddress |> EmailAddress.value
@@ -309,13 +309,13 @@ module internal OrderAcknowledgmentSentDto =
 
 /// Use a dictionary representation of a PlaceOrderEvent, suitable for JSON
 /// See "Serializing Records and Choice Types Using Maps" in chapter 11
-type PlaceOrderEventDto = IDictionary<string,obj> 
+type PlaceOrderEventDto = IDictionary<string,obj>
 
-module internal PlaceOrderEventDto = 
+module internal PlaceOrderEventDto =
 
     /// Convert a PlaceOrderEvent into the corresponding DTO.
     /// Used when exporting from the domain to the outside world.
-    let fromDomain (domainObj:PlaceOrderEvent) :PlaceOrderEventDto = 
+    let fromDomain (domainObj:PlaceOrderEvent) :PlaceOrderEventDto =
         match domainObj with
         | OrderPlaced orderPlaced ->
             let obj = orderPlaced |> OrderPlacedDto.fromDomain |> box // use "box" to cast into an object
@@ -339,18 +339,18 @@ type PlaceOrderErrorDto = {
     Message : string
     }
 
-module internal PlaceOrderErrorDto = 
+module internal PlaceOrderErrorDto =
 
-    let fromDomain (domainObj:PlaceOrderError ) :PlaceOrderErrorDto = 
+    let fromDomain (domainObj:PlaceOrderError ) :PlaceOrderErrorDto =
         match domainObj with
         | Validation validationError ->
-            let (ValidationError msg) = validationError 
+            let (ValidationError msg) = validationError
             {
                 Code = "ValidationError"
                 Message = msg
             }
         | Pricing pricingError ->
-            let (PricingError msg) = pricingError 
+            let (PricingError msg) = pricingError
             {
                 Code = "PricingError"
                 Message = msg
