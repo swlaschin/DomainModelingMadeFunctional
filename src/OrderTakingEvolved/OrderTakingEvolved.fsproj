@@ -16,7 +16,8 @@
     <Compile Include="PlaceOrder.Dto.fs" />
     <Compile Include="PlaceOrder.Api.fs" />
     <Compile Include="AssemblyInfo.fs" />
-    <None Include="paket.references" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="5.0.2" />
+  </ItemGroup>
 </Project>
