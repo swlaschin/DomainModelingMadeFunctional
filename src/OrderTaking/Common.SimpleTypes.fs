@@ -264,7 +264,7 @@ module KilogramQuantity =
     /// Create a KilogramQuantity from a decimal.
     /// Return Error if input is not a decimal between 0.05 and 100.00
     let create fieldName v =
-        ConstrainedType.createDecimal fieldName KilogramQuantity 0.5M 100M v
+        ConstrainedType.createDecimal fieldName KilogramQuantity 0.05M 100M v
 
 module OrderQuantity  =
 
